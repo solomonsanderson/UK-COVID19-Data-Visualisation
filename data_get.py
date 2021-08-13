@@ -24,7 +24,13 @@ def data_get(AREA_TYPE, AREA_NAME):
         "dailyCases": "newCasesByPublishDate",
         "cumulativeCases": "cumCasesByPublishDate",
         "dailyDeaths": "newDeaths28DaysByPublishDate",
-        "cumulativeDeaths": "cumDeaths28DaysByPublishDate"
+        "cumulativeDeaths": "cumDeaths28DaysByPublishDate",
+        "newVaccinesGivenByPublishDate":"newVaccinesGivenByPublishDate",
+        "cumVaccinesGivenByPublishDate":"cumVaccinesGivenByPublishDate",
+        "newPeopleVaccinatedFirstDoseByPublishDate":"newPeopleVaccinatedFirstDoseByPublishDate",
+        "cumPeopleVaccinatedFirstDoseByPublishDate":"cumPeopleVaccinatedFirstDoseByPublishDate",
+        "newPeopleVaccinatedSecondDoseByPublishDate":"newPeopleVaccinatedSecondDoseByPublishDate",
+        "cumPeopleVaccinatedSecondDoseByPublishDate":"cumPeopleVaccinatedSecondDoseByPublishDate",
     }
 
     params = {
@@ -32,9 +38,7 @@ def data_get(AREA_TYPE, AREA_NAME):
         "structure": dumps(structure, separators=(",", ":"))
     }
 
-
     response = get(ENDPOINT, params=params)
-
 
     if response.status_code >= 400:
         raise RuntimeError(f'Request failed: { response.text }')
