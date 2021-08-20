@@ -4,32 +4,29 @@ Plotting the various different types of data on the API
 
 import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
-from data_processing import data_processing
-
-fig = plt.figure()
-gs = GridSpec(2, 2)
-ax = fig.add_subplot(gs[0])
-ax1 = fig.add_subplot(gs[1])
-ax2 = fig.add_subplot(gs[2])
+import pandas as pd
+from data_get import data_get
+from title_formatter import title_formatter
 
 
+def vaccine_
 
-def vaccines(data, new_ax=ax, cum_ax=ax1):
-    date = data['date']
-    new_one = data['newPeopleVaccinatedFirstDoseByPublishDate']
-    new_sec = data['newPeopleVaccinatedSecondDoseByPublishDate']
-    new_tot = data['newVaccinesGivenByPublishDate']
-    cum_one = data['cumPeopleVaccinatedFirstDoseByPublishDate']
-    cum_sec = data['cumPeopleVaccinatedSecondDoseByPublishDate']
-    cum_tot = data['cumVaccinesGivenByPublishDate']
-    new_lines = [ax.plot(date, new_one), ax.plot(date, new_sec)]
-    cum_lines = [ax1.plot(date, cum_one), ax1.plot(date, cum_sec)]
-    return cum_lines
+def plotting_all():
+    data = data_get()
+    # print(list(data.columns)[4:])
+    metrics = (data.columns)[4:]
+    nrows = 4  
+    ncols = int(len(metrics) / nrows)
+    fig, axes = plt.subplots(nrows, ncols, figsize = (15,10))
+    axes = axes.flatten()
+    for i in range(len(axes)):
+        column = metrics[i]
+        metric = data[column]
+        axes[i].plot(data['date'], metric)
+        axes[i].set_title(title_formatter(column))
+    
+    plt.tight_layout()
+    plt.show()
 
 
-data = data_processing()
-vaccines(data)
-
-
-
-plt.show()
+plotting_all()

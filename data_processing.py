@@ -13,6 +13,7 @@ def data_processing(AREA_TYPE='nation', AREA_NAME='england'):
     data['date'] = pd.to_datetime(data['date'])
     print('***Processed***')
     print(data.columns)
+    print('***saved***')
     return data
 
 

@@ -1,13 +1,17 @@
 '''
-Gets data from the API
-
+Checks data.csv to see if it is up to date. If data 
 Web address for the API developer page: https://coronavirus.data.gov.uk/details/developers-guide#methods-get
 '''
 
+
 from requests import get
 from json import dumps
+from datetime import datetime
+from datetime import timedelta
+import pandas as pd
 
-def data_get(AREA_TYPE, AREA_NAME):
+
+def data_get(AREA_TYPE='nation', AREA_NAME='england'):
 
     ENDPOINT = "https://api.coronavirus.data.gov.uk/v1/data"
     
@@ -37,11 +41,33 @@ def data_get(AREA_TYPE, AREA_NAME):
         "filters": str.join(";", filters),
         "structure": dumps(structure, separators=(",", ":"))
     }
+    now = datetime.now()
+    yesterday = (now - timedelta(days=1)).date()
+    saved_data = pd.read_csv('data.csv')
+    latest_update = datetime.strptime(saved_data.iloc[0]['date'], '%Y-%m-%d').date()
+    
+    if latest_update == yesterday:
+        print("***Using saved data***")
+        saved_data['date'] = pd.to_datetime(saved_data['date'])
+        return saved_data
+    
+    else:      
+        print("***Updating Data***")
+        response = get(ENDPOINT, params=params)
+        print(response.status_code)
 
-    response = get(ENDPOINT, params=params)
+        if response.status_code >= 400:
+            print(f"***Failed to Update*** \\ Request failed: { response.text }")
+            return saved_data
+            
+        else:
+            # saving data
+            new_data = response.json()['data']
+            new_data = pd.DataFrame.from_dict(new_data)
+            new_data['date'] = pd.to_datetime(new_data['date'])
+            pd.DataFrame.to_csv(new_data, 'data.csv')
+            print("***Data Updated***")
 
-    if response.status_code >= 400:
-        raise RuntimeError(f'Request failed: { response.text }')
+            return new_data
 
-    else:
-        return response
+print(data_get('nation', 'england'))
