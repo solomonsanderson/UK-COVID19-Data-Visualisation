@@ -4,12 +4,10 @@ Plotting the various different types of data on the API
 
 import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
-import pandas as pd
 from data_get import data_get
 from title_formatter import title_formatter
-
-
-def vaccine_
+from highlighting import vaccine_groups
+from highlighting import lockdowns
 
 def plotting_all():
     data = data_get()
@@ -22,9 +20,16 @@ def plotting_all():
     for i in range(len(axes)):
         column = metrics[i]
         metric = data[column]
-        axes[i].plot(data['date'], metric)
-        axes[i].set_title(title_formatter(column))
-    
+        axes[i].plot(data['date'], metric, color='black')
+        title = title_formatter(column)
+        axes[i].set_title(title)
+        if 'Vaccines' in title:
+            vaccine_groups(axes[i])
+        elif 'Vaccinated' in title:
+            vaccine_groups(axes[i])
+
+        lockdowns(axes[i])
+
     plt.tight_layout()
     plt.show()
 

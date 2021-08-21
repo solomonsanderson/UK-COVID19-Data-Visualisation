@@ -54,7 +54,6 @@ def data_get(AREA_TYPE='nation', AREA_NAME='england'):
     else:      
         print("***Updating Data***")
         response = get(ENDPOINT, params=params)
-        print(response.status_code)
 
         if response.status_code >= 400:
             print(f"***Failed to Update*** \\ Request failed: { response.text }")
