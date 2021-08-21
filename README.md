@@ -4,5 +4,5 @@ This tool is designed to visualise the data that is available using the Covid-19
 
 I am not currently sure how I am gonna present the data.
 
-##Example Figure:
+## Example Figure:
 ![Figure](example_fig.png)
