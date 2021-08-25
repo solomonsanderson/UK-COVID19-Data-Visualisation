@@ -41,9 +41,12 @@ def data_get(AREA_TYPE='nation', AREA_NAME='england'):
         "filters": str.join(";", filters),
         "structure": dumps(structure, separators=(",", ":"))
     }
+
+
+    # Checking if files are from the day before
     now = datetime.now()
     yesterday = (now - timedelta(days=1)).date()
-    saved_data = pd.read_csv('data.csv')
+    saved_data = pd.read_csv('data\\data.csv')
     latest_update = datetime.strptime(saved_data.iloc[0]['date'], '%Y-%m-%d').date()
     
     if latest_update == yesterday:
@@ -64,7 +67,7 @@ def data_get(AREA_TYPE='nation', AREA_NAME='england'):
             new_data = response.json()['data']
             new_data = pd.DataFrame.from_dict(new_data)
             new_data['date'] = pd.to_datetime(new_data['date'])
-            pd.DataFrame.to_csv(new_data, 'data.csv')
+            pd.DataFrame.to_csv(new_data, 'data\\data.csv')
             print("***Data Updated***")
 
             return new_data

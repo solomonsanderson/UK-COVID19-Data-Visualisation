@@ -30,8 +30,9 @@ def plotting_all():
         
         ra = rolling_average(data[['date', column]],7)
         axes[i].plot(ra.iloc[:,0], ra.iloc[:,2], color = "purple", zorder=3)
+
         latest_ra = ra.iloc[0][ra.columns[-1]]
-    
+
         if latest_ra > 0:
             color = 'r'
             ra_label = f'7 Day Avg: {latest_ra:.0f} $\\uparrow$'
