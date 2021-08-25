@@ -15,15 +15,23 @@ def vaccine_groups(axis):
 
     rgbs = np.linspace(0.2, 1, len(vaccine_dates) - 1)
     rgbs = np.flip(rgbs)
-    for i in range(0, len(vaccine_dates) - 1):
-	    axis.axvspan(vaccine_dates[i], vaccine_dates[i+1], color = (rgbs[i], rgbs[i], 1), alpha = 0.7)
 
+    patches = []
+
+    for i in range(0, len(vaccine_dates) - 1):
+        groups = axis.axvspan(vaccine_dates[i], vaccine_dates[i+1], color = (rgbs[i], rgbs[i], 1), alpha = 0.7)
+        patches.append(groups)
+
+    return patches
 
 def lockdowns(axis):
     lockdown_dates = [("2020-03-26","2020-05-10"), ('2020-11-02', '2020-12-02'), ('2021-01-06', '2021-04-12')]
+    patches = []
     for dates in lockdown_dates:
         start = datetime.strptime(dates[0], "%Y-%m-%d")
         end = datetime.strptime(dates[1], "%Y-%m-%d")
-        print(start, end)
-        axis.axvspan(start, end, color="r", alpha=0.2)
+        # print(start, end)
+        lockdown = axis.axvspan(start, end, color="r", alpha=0.2)
+        patches.append(lockdown)
 
+    return patches
