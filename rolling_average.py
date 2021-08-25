@@ -12,5 +12,4 @@ def rolling_average(data, window):
         df['7dayavg'] = df.rolling(window).mean()
 
     df = df.dropna()
-    print(df)
     return df

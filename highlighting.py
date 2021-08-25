@@ -19,7 +19,7 @@ def vaccine_groups(axis):
     patches = []
 
     for i in range(0, len(vaccine_dates) - 1):
-        groups = axis.axvspan(vaccine_dates[i], vaccine_dates[i+1], color = (rgbs[i], rgbs[i], 1), alpha = 0.7)
+        groups = axis.axvspan(vaccine_dates[i], vaccine_dates[i+1], color = (rgbs[i], rgbs[i], 1), alpha = 0.7, zorder=1)
         patches.append(groups)
 
     return patches
@@ -31,7 +31,7 @@ def lockdowns(axis):
         start = datetime.strptime(dates[0], "%Y-%m-%d")
         end = datetime.strptime(dates[1], "%Y-%m-%d")
         # print(start, end)
-        lockdown = axis.axvspan(start, end, color="r", alpha=0.2)
+        lockdown = axis.axvspan(start, end, color="orange", alpha=0.2, zorder=1)
         patches.append(lockdown)
 
     return patches

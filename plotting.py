@@ -16,7 +16,6 @@ from rolling_average import rolling_average
 
 def plotting_all():
     data = data_get()
-    print(list(data.columns)[4:])
     metrics = (data.columns)[4:]
     nrows = 4  
     ncols = int(len(metrics) / nrows)
@@ -29,14 +28,24 @@ def plotting_all():
         column = metrics[i]
         metric = data[column]
         
-        
         ra = rolling_average(data[['date', column]],7)
-        axes[i].plot(ra.iloc[:,0], ra.iloc[:,2], color = "purple")
+        axes[i].plot(ra.iloc[:,0], ra.iloc[:,2], color = "purple", zorder=3)
         latest_ra = ra.iloc[0][ra.columns[-1]]
-        ra_label = f'7 Day Avg: {latest_ra}'
-        axes[i].plot(data['date'], metric, color='black', alpha=0.5, label=ra_label)
-        axes[i].legend()
-        
+    
+        if latest_ra > 0:
+            color = 'r'
+            ra_label = f'7 Day Avg: {latest_ra:.0f} $\\uparrow$'
+
+        elif latest_ra < 0:
+            color = 'g'
+            ra_label = f'7 Day Avg: {latest_ra:.0f} $\\downarrow$'
+
+        axes[i].plot(data['date'], metric, color="black", alpha=0.7, label=ra_label, zorder=2)
+        legend = axes[i].legend(facecolor=color, framealpha=0.1)
+        for text in legend.get_texts():
+            text.set_color(color)
+            
+
         title = title_formatter(column)
         axes[i].set_title(title)
         if 'Vaccines' in title:
@@ -57,7 +66,8 @@ def plotting_all():
     activated = [True, True]
     axCheckButton = plt.axes([0.053, 0.91, 0.1, 0.05])
     check = CheckButtons(axCheckButton, labels, activated)
-
+    check_colors = ['yellow', 'cornflowerblue']
+    [rectangle.set_facecolor(check_colors[i]) for i, rectangle in enumerate(check.rectangles)]
     def func(label):
         index = labels.index(label)
         
