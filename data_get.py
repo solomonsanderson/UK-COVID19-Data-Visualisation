@@ -69,4 +69,4 @@ def data_get(AREA_TYPE='nation', AREA_NAME='england'):
 
             return new_data
 
-print(data_get('nation', 'england'))
+# print(data_get('nation', 'england'))
