@@ -15,6 +15,7 @@ from rolling_average import rolling_average
 
 
 def plotting_all():
+    # data = data_get(AREA_TYPE',AREA_NAME='portsmouth')
     data = data_get()
     metrics = (data.columns)[4:]
     nrows = 4  
@@ -45,6 +46,7 @@ def plotting_all():
         legend = axes[i].legend(facecolor=color, framealpha=0.1)
         for text in legend.get_texts():
             text.set_color(color)
+
             
 
         title = title_formatter(column)

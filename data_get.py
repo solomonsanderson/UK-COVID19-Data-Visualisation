@@ -9,6 +9,11 @@ from json import dumps
 from datetime import datetime
 from datetime import timedelta
 import pandas as pd
+import os.path
+
+
+
+
 
 
 def data_get(AREA_TYPE='nation', AREA_NAME='england'):
@@ -42,18 +47,21 @@ def data_get(AREA_TYPE='nation', AREA_NAME='england'):
         "structure": dumps(structure, separators=(",", ":"))
     }
 
+    # Checking if there is saved data for the location
+    print(os.path.isfile(f'data\data_{AREA_NAME}.csv'))
 
-    # Checking if files are from the day before
     now = datetime.now()
     yesterday = (now - timedelta(days=1)).date()
-    saved_data = pd.read_csv('data\\data.csv')
+    saved_data = pd.read_csv(f'data\data_{AREA_NAME}.csv')
     latest_update = datetime.strptime(saved_data.iloc[0]['date'], '%Y-%m-%d').date()
-    
-    if latest_update == yesterday:
+
+    if os.path.isfile(f'data\data_{AREA_NAME}.csv') and latest_update == yesterday:
+        # when there is data for location checks date
         print("***Using saved data***")
         saved_data['date'] = pd.to_datetime(saved_data['date'])
+
         return saved_data
-    
+                    
     else:      
         print("***Updating Data***")
         response = get(ENDPOINT, params=params)
@@ -67,7 +75,7 @@ def data_get(AREA_TYPE='nation', AREA_NAME='england'):
             new_data = response.json()['data']
             new_data = pd.DataFrame.from_dict(new_data)
             new_data['date'] = pd.to_datetime(new_data['date'])
-            pd.DataFrame.to_csv(new_data, 'data\\data.csv')
+            pd.DataFrame.to_csv(new_data, f'data\data_{AREA_NAME}.csv')
             print("***Data Updated***")
 
             return new_data
