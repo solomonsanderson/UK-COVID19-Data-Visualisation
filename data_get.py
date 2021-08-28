@@ -1,5 +1,5 @@
 '''
-Checks data.csv to see if it is up to date. If data 
+Checks data.csv to see if it is up to date. If data is up to date saved data is used.
 Web address for the API developer page: https://coronavirus.data.gov.uk/details/developers-guide#methods-get
 '''
 
