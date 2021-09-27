@@ -20,7 +20,7 @@ def plotting_all():
     metrics = (data.columns)[4:]
     nrows = 4  
     ncols = int(len(metrics) / nrows)
-    fig, axes = plt.sub plots(nrows, ncols, figsize = (15,10))
+    fig, axes = plt.subplots(nrows, ncols, figsize = (15,10))
     axes = axes.flatten()
     vc_all = []
     ld_all = []

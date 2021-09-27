@@ -56,7 +56,7 @@ def data_get(AREA_TYPE='nation', AREA_NAME='england'):
     latest_update = datetime.strptime(saved_data.iloc[0]['date'], '%Y-%m-%d').date()
     print(latest_update)
     print(yesterday)
-    if os.path.isfile(f'data\data_{AREA_NAME}.csv') and (latest_update == yesterday or now.date()):
+    if os.path.isfile(f'data\data_{AREA_NAME}.csv') and (latest_update == (yesterday or now.date())):
         # when there is data for location checks date
         print("***Using saved data***")
         saved_data['date'] = pd.to_datetime(saved_data['date'])
