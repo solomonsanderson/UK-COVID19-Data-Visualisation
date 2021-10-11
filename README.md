@@ -10,5 +10,6 @@ This highligting can be turned on and off using the checkboxes.
 
 I am not currently sure how I am gonna present the data.
 
+Below is an example of the dash dashboard that I am currently working on.
 ## Example Figure:
-![Figure](example_fig.png)
+![Figure](example_fig_dash.png)

@@ -29,6 +29,7 @@ app.layout = html.Div([
                 {'label':'Cumulative Values', 'value':["cumulativeCases", "cumulativeDeaths", "cumPeopleVaccinatedFirstDoseByPublishDate", "cumPeopleVaccinatedSecondDoseByPublishDate" ]}
             ],
             value=["dailyCases","dailyDeaths", "newPeopleVaccinatedFirstDoseByPublishDate", "newPeopleVaccinatedSecondDoseByPublishDate"]
+            
         ),
     ]),
 
