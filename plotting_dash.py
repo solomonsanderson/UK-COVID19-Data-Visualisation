@@ -9,13 +9,21 @@ from dash.dependencies import Input, Output
 import plotly.express as px
 import pandas as pd
 from data_get import data_get
+from rolling_average import rolling_average
+
 
 df = data_get()
-print(df)
-# Vaccines 
-# Deaths 
-# Cases
-# 
+print(df.head())
+daily_values = ["dailyCases","dailyDeaths", "newPeopleVaccinatedFirstDoseByPublishDate", "newPeopleVaccinatedSecondDoseByPublishDate"]
+cumulative_values = ["cumulativeCases", "cumulativeDeaths", "cumPeopleVaccinatedFirstDoseByPublishDate", "cumPeopleVaccinatedSecondDoseByPublishDate" ]
+
+for value in daily_values:
+    ra = rolling_average(df[value], 7)
+    
+    df[f'{value}-7dra'] = ra['7dayavg']
+
+
+
 
 app = dash.Dash(__name__)
 app.layout = html.Div([
@@ -25,10 +33,10 @@ app.layout = html.Div([
         # Dropdown to switch between new and cumulative cases
         dcc.Dropdown(id='cumnew_dropdown',
             options=[
-                {'label':'New Values', 'value':["dailyCases","dailyDeaths", "newPeopleVaccinatedFirstDoseByPublishDate", "newPeopleVaccinatedSecondDoseByPublishDate"]},
-                {'label':'Cumulative Values', 'value':["cumulativeCases", "cumulativeDeaths", "cumPeopleVaccinatedFirstDoseByPublishDate", "cumPeopleVaccinatedSecondDoseByPublishDate" ]}
+                {'label':'New Values', 'value':daily_values},
+                {'label':'Cumulative Values', 'value': cumulative_values}
             ],
-            value=["dailyCases","dailyDeaths", "newPeopleVaccinatedFirstDoseByPublishDate", "newPeopleVaccinatedSecondDoseByPublishDate"]
+            value=daily_values
             
         ),
     ]),
@@ -45,6 +53,7 @@ app.layout = html.Div([
 
 def update_graph(cumnew_dropdown):
     dff = df
+    print(dff.columns)
     graph = px.line(dff, x='date', y=cumnew_dropdown)
     return graph
 
